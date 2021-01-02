@@ -26,6 +26,7 @@ app.engine('html', require('ejs').renderFile); // html 에서 ejs 사용가능�
 app.use(express.static(path.resolve(__dirname, '../dist')));
 app.use(express.static(path.resolve(__dirname, '../public')));
 app.use(express.static(path.resolve(__dirname, '../test')));
+app.use('/samples', express.static(path.resolve(__dirname, '../samples')));
 
 // redirect HTTP to HTTPS 
 /*app.all('*', (request, response, next) => { 
