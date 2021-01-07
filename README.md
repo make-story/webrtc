@@ -91,12 +91,12 @@ function getDataChannel(peerConnection=null, channel="my channel") {
   
 ----------
   
-> 피어 연결  
+- 피어 연결  
 피어 연결은 피어 투 피어 프로토콜을 사용하여 통신하기 위해 서로 다른 컴퓨터에있는 두 응용 프로그램을 연결하는 WebRTC 사양의 일부  
   
-> WebRTC는 기본적으로 네트워크 연결시 SSL이 있어야 한다.  
+- WebRTC는 기본적으로 네트워크 연결시 SSL이 있어야 한다.  
   
-> TURN 서버  
+- TURN 서버  
 https://webrtc.org/getting-started/turn-server?hl=ko  
   
 WebRTC는 개인간 연결(Peer to Peer)을 기본으로 하기 때문에  
@@ -112,7 +112,79 @@ http://www.omegaduck.com/2019/08/12/sturn-turn-%EC%84%9C%EB%B2%84-%EA%B5%AC%EC%8
 
 -----
   
+### 설치 
+
 > libevent2 모듈 설치 참고(CentOS 6)  
 ```
-# yum install -y libevent2.x86_64 libevent2-devel.x86_64
+$ yum install -y libevent2.x86_64 libevent2-devel.x86_64
+$ wget https://coturn.net/turnserver/v4.5.1.3/turnserver-4.5.1.3.tar.gz
+$ tar xvf turnserver-4.5.1.3.tar.gz 
+$ cd turnserver-4.5.1.3
+$ ./configure 
+$ make install
 ```
+
+> 설명
+```
+$ cat /usr/local/share/doc/turnserver/postinstall.txt
+```
+
+> 가이드 참고
+```
+$ man turnserver
+$ man turnadmin
+$ man turnutils
+```
+
+> 경로 참고
+```
+/usr/local/share/turnserver
+/usr/local/share/doc/turnserver
+/usr/local/share/examples/turnserver
+```
+
+> 환경설정
+```
+/etc/turnserver.conf
+/var/db/turndb
+/usr/local/var/db/turndb
+/var/lib/turn/turndb
+/usr/local/etc/turnserver.conf
+```
+
+----------
+
+- turnserver.conf
+> 설정을 하기 전에 포트포워딩 또는 방화벽을 통해 tcp 3478 & tcp 5349 포트를 허용  
+```conf
+# turnserver의 포트입니다.
+listening-port=3478
+# tls 포트입니다.
+tls-listening-port=5349
+# 외부IP를 넣어줍니다.(공유기 사용시 WAN상의 외부IP를 넣어줍니다.)
+external-ip=123.123.126.123
+# 로그를 뽑을 수 있으니 주석을 해제하였습니다.
+verbose
+# 이것도 주석해제
+fingerprint
+# 인증방식 주석해제
+lt-cred-mech
+# turnserver 도메인 네임입니다.
+server-name=test.com
+# 릴름은 원하는 네임명으로 해줍니다.
+realm=testname
+```
+
+- turnadmin 을 통해 turnserver를 사용할 수 있는 계정을 생성  
+```
+$ turnadmin -a -u 계정이름 -p 계정패스워드 -r 릴름명  
+```
+
+- turnserver 실행  
+```
+$ sudo service coturn start  
+```
+
+- log
+`/var/log/turn_14545_<날짜>.log` 형태로 로그가 쌓임  
+
