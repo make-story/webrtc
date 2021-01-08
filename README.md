@@ -188,3 +188,9 @@ $ sudo service coturn start
 - log
 `/var/log/turn_14545_<날짜>.log` 형태로 로그가 쌓임  
 
+----------
+
+```
+$ turnutils_uclient -t -u 계정 -w 비밀번호 공인IP
+```
+
