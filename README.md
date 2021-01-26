@@ -10,6 +10,22 @@
 - https://codelabs.developers.google.com/codelabs/webrtc-web/#0  
 - https://developer.mozilla.org/ko/docs/Web/API/WebRTC_API  
 - https://developer.mozilla.org/en-US/docs/Glossary/WebRTC  
+- https://developer.mozilla.org/ko/docs/Web/API/WebRTC_API/Protocols   
+
+- https://wormwlrm.github.io/2021/01/24/Introducing-WebRTC.html  
+- http://www.kyobobook.co.kr/product/detailViewKor.laf?ejkGb=KOR&mallGb=KOR&barcode=9788960777934&OV_REFFER=http://click.linkprice.com/   
+- https://medium.com/@hyun.sang/webrtc-webrtc%EB%9E%80-43df68cbe511  
+- https://blog.sessionstack.com/how-javascript-works-webrtc-and-the-mechanics-of-peer-to-peer-connectivity-87cc56c1d0ab   
+
+> 크로스브라우징 라이브러리    
+https://github.com/webrtcHacks/adapter  
+
+> NAT, NAT 트래버셜(NAT traversal)?  
+https://ko.wikipedia.org/wiki/%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC_%EC%A3%BC%EC%86%8C_%EB%B3%80%ED%99%98   
+https://en.wikipedia.org/wiki/NAT_traversal    
+
+> DHCP?  
+https://en.wikipedia.org/wiki/Dynamic_Host_Configuration_Protocol   
 
 ----------
 
@@ -104,11 +120,19 @@ WebRTC는 개인간 연결(Peer to Peer)을 기본으로 하기 때문에
 하나는 공유기 안에 있고, 다른 하나는 공유기 밖에 있다면 통신을 할 수 없다.  
   
 이 경우 각 단말기는 공인 IP를 가진 서버(Server)를 경유해서 통신해야 하고,  
-TURN(CoTURN, Traversal Using Relays around NAT)서버는 WebRTC 가 이렇게 통신할 수 있도록 중계 서버 역할을 해주는 오픈 소스 프로그램이다.  
+TURN(CoTURN, Traversal Using Relays around NAT) 서버는 WebRTC 가 이렇게 통신할 수 있도록 중계 서버 역할을 해주는 오픈 소스 프로그램이다.  
 (공인IP를 가진 서버에 설치)  
 https://github.com/coturn/coturn  
 https://coturn.net/turnserver/  
 http://www.omegaduck.com/2019/08/12/sturn-turn-%EC%84%9C%EB%B2%84-%EA%B5%AC%EC%84%B1/  
+
+TURN 방식은 네트워크 미디어를 중개하는 서버를 이용하는 것입니다.  
+TURN 방식은 중간에 서버를 한 번 거치기 때문에, 엄밀히 이야기하자면 P2P 통신이 아니게 되며 그 구조 상 지연이 필연적으로 발생하게 됩니다.  
+하지만 보안 정책이 엄격한 개인 NAT 내부에 위치한 브라우저와 P2P 통신을 할 수 있는 유일한 방법이기 때문에, TURN 방식은 최후의 수단으로 선택되어야 합니다.  
+
+- STURN 서버  
+STUN(Session Traversal Utilities for NAT) 서버는 인터넷의 복잡한 주소들 속에서 유일하게 자기 자신을 식별할 수 있는 정보를 반환해줍니다.  
+즉, WebRTC 연결을 시작하기 전에 STUN 서버를 향해 요청을 보내면, STUN 서버는 NAT 뒤에 있는 피어(Peer)들이 서로 연결할 수 있도록 공인 IP와 포트를 찾아줍니다.
 
 -----
   
